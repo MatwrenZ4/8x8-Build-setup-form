@@ -1,0 +1,491 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:2rem 0;max-width:680px}
+.header{margin-bottom:1.5rem}
+.header h1{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.header p{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.progress-bar{display:flex;gap:6px;margin-bottom:.75rem}
+.pb{flex:1;height:4px;border-radius:2px;background:var(--color-border-tertiary);transition:background .3s}
+.pb.done{background:#1D9E75}.pb.active{background:#5DCAA5}
+.step-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:1.25rem}
+.step-label strong{color:var(--color-text-primary);font-weight:500}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1rem}
+.card-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.card-title i{font-size:18px;color:#1D9E75}
+.card-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.25rem}
+.contact-hint{font-size:12px;color:#1D9E75;background:#E1F5EE;border-radius:var(--border-radius-md);padding:8px 12px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:6px}
+.contact-hint i{font-size:14px;flex-shrink:0;margin-top:1px}
+label{display:block;font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;margin-top:12px}
+label:first-of-type{margin-top:0}
+input[type=text],input[type=email],input[type=time],select,textarea{width:100%;font-size:14px;border-radius:var(--border-radius-md)}
+textarea{resize:vertical;min-height:80px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;gap:12px}
+.btn{font-size:14px;padding:8px 20px;border-radius:var(--border-radius-md);cursor:pointer;border:.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);transition:background .15s,transform .1s}
+.btn:hover{background:var(--color-background-secondary)}.btn:active{transform:scale(.98)}
+.btn.primary{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.btn.primary:hover{background:#0F6E56;border-color:#0F6E56}
+.add-btn{font-size:13px;color:#1D9E75;border:.5px dashed #5DCAA5;background:transparent;padding:7px 14px;border-radius:var(--border-radius-md);cursor:pointer;display:flex;align-items:center;gap:6px;margin-top:12px}
+.add-btn:hover{background:#E1F5EE}
+.user-row{display:flex;align-items:flex-end;gap:8px;margin-top:10px;padding:12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary)}
+.user-row>div{flex:1;min-width:0}
+.user-row label{margin-top:0}
+.rm-btn{flex:0 0 auto;font-size:18px;color:#E24B4A;cursor:pointer;padding:6px;border:none;background:none}
+.rm-btn:hover{color:#A32D2D}
+hr{border:none;border-top:.5px solid var(--color-border-tertiary);margin:1.25rem 0}
+.radio-group{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.radio-opt{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;padding:8px 14px;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);transition:border-color .15s,background .15s;color:var(--color-text-primary)}
+.radio-opt input{accent-color:#1D9E75}
+.radio-opt.sel{border-color:#1D9E75;background:#E1F5EE;color:#0F6E56}
+.step{display:none}.step.active{display:block}
+.hours-head{display:grid;grid-template-columns:110px 1fr 1fr 80px;gap:8px;font-size:11px;color:var(--color-text-secondary);font-weight:500;padding-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.hours-row{display:grid;grid-template-columns:110px 1fr 1fr 80px;gap:8px;align-items:center;margin-bottom:5px}
+.hours-row .day-lbl{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.closed-tog{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;color:var(--color-text-secondary)}
+.closed-tog input{accent-color:#1D9E75}
+input[type=time]:disabled,select:disabled{opacity:.4;pointer-events:none}
+.rg-block{margin-bottom:14px;padding:14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary)}
+.rg-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rg-name-input{flex:1;font-size:14px;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.chip{font-size:12px;padding:6px 13px;border-radius:20px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;transition:background .12s,border-color .12s,color .12s;color:var(--color-text-primary);font-weight:400;line-height:1}
+.chip.on{background:#1D9E75;border-color:#1D9E75;color:#fff;font-weight:500}
+.chip:hover:not(.on){background:var(--color-background-secondary);border-color:var(--color-border-primary)}
+.err-msg{font-size:12px;color:#E24B4A;margin-top:3px;display:none}
+.has-err input,.has-err select,.has-err textarea{border-color:#E24B4A!important}
+.has-err .err-msg{display:block}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sum-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px}
+.sum-lbl{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.sum-val{font-size:13px;color:var(--color-text-primary);font-weight:500}
+.sum-val-sm{font-size:12px;color:var(--color-text-primary);font-weight:400;line-height:1.5}
+.ov-section{margin-bottom:1.25rem}
+.ov-section-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ov-section-title i{font-size:15px;color:#1D9E75}
+.user-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.user-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;border:.5px solid var(--color-border-tertiary)}
+.user-card .uc-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.user-card .uc-email{font-size:12px;color:var(--color-text-secondary);word-break:break-all}
+.rg-ov{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:8px;border:.5px solid var(--color-border-tertiary)}
+.rg-ov-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.rg-ov-members{font-size:12px;color:var(--color-text-secondary)}
+.hours-ov{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.hours-ov-day{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;border:.5px solid var(--color-border-tertiary)}
+.hours-ov-day.closed-day{opacity:.5}
+.hours-ov-day .hd-name{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.hours-ov-day .hd-time{font-size:11px;color:var(--color-text-secondary)}
+.success-top{text-align:center;padding:1.5rem 1rem 1rem}
+.check-circle{width:52px;height:52px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.check-circle i{font-size:26px;color:#1D9E75}
+</style>
+
+<h2 class="sr-only">8x8 phone system setup — multi-step configuration form</h2>
+
+<div class="wrap">
+  <div class="header">
+    <h1><i class="ti ti-phone-call" aria-hidden="true" style="font-size:20px;vertical-align:-3px;margin-right:8px;color:#1D9E75"></i>8x8 system setup</h1>
+    <p>Tell us how you'd like your phone system configured. Takes around 5 minutes.</p>
+  </div>
+  <div class="progress-bar" id="progBar"></div>
+  <div class="step-label" id="stepLabel"></div>
+
+  <div class="step active" id="step0">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-building" aria-hidden="true"></i>Company details</div>
+      <div class="card-sub">Basic information about your business</div>
+      <label for="companyName">Company name</label>
+      <div id="fw0"><input type="text" id="companyName" placeholder="Acme Ltd"><div class="err-msg">Please enter your company name</div></div>
+      <hr style="margin:1.25rem 0">
+      <div class="contact-hint"><i class="ti ti-info-circle" aria-hidden="true"></i><span>Your name and email are used as the primary contact. We'll only reach out if we need to clarify any details about your setup.</span></div>
+      <label for="contactName">Your name</label>
+      <div id="fw1"><input type="text" id="contactName" placeholder="Jane Smith"><div class="err-msg">Please enter your name</div></div>
+      <label for="contactEmail">Your email address</label>
+      <div id="fw2"><input type="email" id="contactEmail" placeholder="jane@acme.com"><div class="err-msg">Please enter a valid email</div></div>
+    </div>
+  </div>
+
+  <div class="step" id="step1">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-clock" aria-hidden="true"></i>Opening hours</div>
+      <div class="card-sub">Set your business hours for each day of the week</div>
+      <div class="hours-head"><span>Day</span><span>Opens</span><span>Closes</span><span>Closed</span></div>
+      <div id="hoursContainer"></div>
+    </div>
+  </div>
+
+  <div class="step" id="step2">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-message-circle" aria-hidden="true"></i>Welcome &amp; out-of-hours messages</div>
+      <div class="card-sub">These are played to callers when they connect or call outside business hours</div>
+      <label for="welcomeMsg">Welcome message</label>
+      <textarea id="welcomeMsg" placeholder="e.g. Thank you for calling Acme Ltd. Your call is important to us..."></textarea>
+      <hr>
+      <label for="closedMsg">Closed / out-of-hours message</label>
+      <textarea id="closedMsg" placeholder="e.g. Thank you for calling Acme Ltd. Our office is currently closed..."></textarea>
+      <hr>
+      <label for="voicemailMsg">Voicemail greeting <span style="color:var(--color-text-secondary)">(optional)</span></label>
+      <textarea id="voicemailMsg" placeholder="e.g. You've reached Acme Ltd. Please leave your name and number..."></textarea>
+    </div>
+  </div>
+
+  <div class="step" id="step3">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-users" aria-hidden="true"></i>Users</div>
+      <div class="card-sub">Add everyone who needs a phone extension on the system</div>
+      <div id="usersContainer"><p style="font-size:13px;color:var(--color-text-secondary)">No users added yet.</p></div>
+      <button class="add-btn" onclick="addUser()"><i class="ti ti-plus" aria-hidden="true"></i>Add another user</button>
+    </div>
+  </div>
+
+  <div class="step" id="step4">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-phone-incoming" aria-hidden="true"></i>Ring groups</div>
+      <div class="card-sub">Create groups whose phones ring together when a number is called</div>
+      <div id="rgContainer"><p style="font-size:13px;color:var(--color-text-secondary)">No ring groups added yet.</p></div>
+      <button class="add-btn" onclick="addRingGroup()"><i class="ti ti-plus" aria-hidden="true"></i>Add ring group</button>
+    </div>
+  </div>
+
+  <div class="step" id="step5">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-device-mobile" aria-hidden="true"></i>Phone numbers</div>
+      <div class="card-sub">Will you be bringing existing numbers over or getting new ones?</div>
+      <label>Number type</label>
+      <div class="radio-group">
+        <label class="radio-opt sel" id="ropt-port"><input type="radio" name="numType" value="port" checked onchange="updateNumType()"><i class="ti ti-transfer" aria-hidden="true"></i>Port existing numbers</label>
+        <label class="radio-opt" id="ropt-new"><input type="radio" name="numType" value="new" onchange="updateNumType()"><i class="ti ti-plus-circle" aria-hidden="true"></i>Claim new numbers</label>
+        <label class="radio-opt" id="ropt-both"><input type="radio" name="numType" value="both" onchange="updateNumType()"><i class="ti ti-arrows-exchange" aria-hidden="true"></i>Both</label>
+      </div>
+      <div id="portSection" style="margin-top:1.25rem">
+        <hr style="margin-top:0">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:8px">List the numbers you want to port (one per line)</p>
+        <textarea id="portNumbers" placeholder="e.g.&#10;020 7946 0123&#10;020 7946 0124"></textarea>
+        <label for="currentProvider" style="margin-top:12px">Current provider</label>
+        <input type="text" id="currentProvider" placeholder="e.g. BT, Vodafone, Virgin Media">
+      </div>
+      <div id="newSection" style="display:none;margin-top:1.25rem">
+        <hr style="margin-top:0">
+        <label for="areaCode">Preferred area code</label>
+        <input type="text" id="areaCode" placeholder="e.g. 0207 (London), 0161 (Manchester)" style="max-width:340px">
+        <label for="numQty" style="margin-top:12px">How many numbers do you need?</label>
+        <input type="text" id="numQty" placeholder="e.g. 3" style="max-width:120px">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="goBack()"><i class="ti ti-arrow-left" aria-hidden="true" style="margin-right:4px"></i>Back</button>
+      <button class="btn primary" onclick="submitForm()">Submit configuration <i class="ti ti-send" aria-hidden="true" style="margin-left:4px"></i></button>
+    </div>
+  </div>
+
+  <div class="step" id="step6">
+    <div class="card">
+      <div class="success-top">
+        <div class="check-circle"><i class="ti ti-check" aria-hidden="true"></i></div>
+        <h2 style="font-size:20px;font-weight:500;margin-bottom:6px">Configuration received</h2>
+        <p style="font-size:14px;color:var(--color-text-secondary)">Your 8x8 setup details have been submitted. A member of our team will be in touch if we need anything further.</p>
+      </div>
+      <hr>
+      <div id="overviewOut"></div>
+    </div>
+    <div style="text-align:center;margin-top:1rem">
+      <button class="btn" onclick="resetForm()">Start a new submission</button>
+    </div>
+  </div>
+
+  <div class="btn-row" id="mainNav">
+    <button class="btn" id="backBtn" onclick="goBack()"><i class="ti ti-arrow-left" aria-hidden="true" style="margin-right:4px"></i>Back</button>
+    <button class="btn primary" id="nextBtn" onclick="goNext()">Continue <i class="ti ti-arrow-right" aria-hidden="true" style="margin-left:4px"></i></button>
+  </div>
+</div>
+
+<script>
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const SNAMES=['Company details','Opening hours','Messages','Users','Ring groups','Phone numbers'];
+let cur=0;
+let users=[];
+let rgs=[];
+let nextUserId=1;
+let nextRgId=1;
+
+function buildHours(){
+  const c=document.getElementById('hoursContainer');
+  c.innerHTML='';
+  DAYS.forEach((d,i)=>{
+    const isClosed=i>=5;
+    const row=document.createElement('div');
+    row.className='hours-row';
+    row.innerHTML=`<span class="day-lbl">${d}</span><input type="time" id="open_${i}" value="09:00" ${isClosed?'disabled':''}><input type="time" id="close_${i}" value="17:00" ${isClosed?'disabled':''}><label class="closed-tog"><input type="checkbox" id="closed_${i}" ${isClosed?'checked':''} onchange="toggleDay(${i})">Closed</label>`;
+    c.appendChild(row);
+  });
+}
+
+function toggleDay(i){
+  const cl=document.getElementById('closed_'+i).checked;
+  document.getElementById('open_'+i).disabled=cl;
+  document.getElementById('close_'+i).disabled=cl;
+}
+
+function getUserLabel(u){
+  const fn=(u.fn||'').trim();
+  const ln=(u.ln||'').trim();
+  return (fn+' '+ln).trim()||'Unnamed user';
+}
+
+function addUser(){
+  const id=nextUserId++;
+  users.push({id,fn:'',ln:'',em:''});
+  renderUsers();
+}
+
+function removeUser(id){
+  saveUserInputs();
+  users=users.filter(u=>u.id!==id);
+  rgs.forEach(rg=>{rg.members=(rg.members||[]).filter(m=>m!==id);});
+  renderUsers();
+  renderRGs();
+}
+
+function saveUserInputs(){
+  users.forEach(u=>{
+    const fn=document.getElementById('ufn_'+u.id);
+    const ln=document.getElementById('uln_'+u.id);
+    const em=document.getElementById('uem_'+u.id);
+    if(fn)u.fn=fn.value;
+    if(ln)u.ln=ln.value;
+    if(em)u.em=em.value;
+  });
+}
+
+function renderUsers(){
+  const c=document.getElementById('usersContainer');
+  if(!users.length){c.innerHTML='<p style="font-size:13px;color:var(--color-text-secondary)">No users added yet.</p>';return;}
+  c.innerHTML='';
+  users.forEach(u=>{
+    const row=document.createElement('div');
+    row.className='user-row';
+    row.innerHTML=`<div><label>First name</label><input type="text" id="ufn_${u.id}" placeholder="Jane" value="${esc(u.fn)}" oninput="onUserInput(${u.id},'fn',this.value)"></div><div><label>Last name</label><input type="text" id="uln_${u.id}" placeholder="Smith" value="${esc(u.ln)}" oninput="onUserInput(${u.id},'ln',this.value)"></div><div style="flex:1.5"><label>Email address</label><input type="email" id="uem_${u.id}" placeholder="jane@acme.com" value="${esc(u.em)}" oninput="onUserInput(${u.id},'em',this.value)"></div><button class="rm-btn ti ti-trash" aria-label="Remove user" onclick="removeUser(${u.id})"></button>`;
+    c.appendChild(row);
+  });
+}
+
+function onUserInput(id,field,val){
+  const u=users.find(u=>u.id===id);
+  if(u)u[field]=val;
+  refreshChips();
+}
+
+function refreshChips(){
+  rgs.forEach(rg=>{
+    const wrap=document.getElementById('chips_'+rg.id);
+    if(!wrap)return;
+    wrap.innerHTML=buildChipsHTML(rg);
+  });
+}
+
+function buildChipsHTML(rg){
+  if(!users.length)return '<span style="font-size:12px;color:var(--color-text-secondary)">Add users first in the previous step</span>';
+  return users.map(u=>{
+    const on=(rg.members||[]).includes(u.id);
+    return `<button class="chip${on?' on':''}" onclick="toggleMember(${rg.id},${u.id})">${esc(getUserLabel(u))}</button>`;
+  }).join('');
+}
+
+function addRingGroup(){
+  const id=nextRgId++;
+  rgs.push({id,name:'',strategy:'simultaneous',members:[]});
+  renderRGs();
+}
+
+function removeRG(id){
+  saveRGInputs();
+  rgs=rgs.filter(r=>r.id!==id);
+  renderRGs();
+}
+
+function saveRGInputs(){
+  rgs.forEach(rg=>{
+    const n=document.getElementById('rgn_'+rg.id);
+    const s=document.getElementById('rgs_'+rg.id);
+    if(n)rg.name=n.value;
+    if(s)rg.strategy=s.value;
+  });
+}
+
+function onRGName(id,val){
+  const rg=rgs.find(r=>r.id===id);
+  if(rg)rg.name=val;
+}
+
+function onRGStrat(id,val){
+  const rg=rgs.find(r=>r.id===id);
+  if(rg)rg.strategy=val;
+}
+
+function toggleMember(rgId,userId){
+  const rg=rgs.find(r=>r.id===rgId);
+  if(!rg)return;
+  rg.members=rg.members||[];
+  const idx=rg.members.indexOf(userId);
+  if(idx===-1)rg.members.push(userId);else rg.members.splice(idx,1);
+  refreshChips();
+}
+
+function renderRGs(){
+  const c=document.getElementById('rgContainer');
+  if(!rgs.length){c.innerHTML='<p style="font-size:13px;color:var(--color-text-secondary)">No ring groups added yet.</p>';return;}
+  c.innerHTML='';
+  rgs.forEach(rg=>{
+    const div=document.createElement('div');
+    div.className='rg-block';
+    div.innerHTML=`<div class="rg-header"><input type="text" class="rg-name-input" id="rgn_${rg.id}" placeholder="Ring group name (e.g. Sales team)" value="${esc(rg.name)}" oninput="onRGName(${rg.id},this.value)"><button class="rm-btn ti ti-trash" aria-label="Remove ring group" onclick="removeRG(${rg.id})"></button></div><label style="margin-top:0;margin-bottom:4px">Ring strategy</label><select id="rgs_${rg.id}" style="width:auto;margin-bottom:12px" onchange="onRGStrat(${rg.id},this.value)"><option value="simultaneous" ${rg.strategy==='simultaneous'?'selected':''}>Simultaneous — all ring at once</option><option value="sequential" ${rg.strategy==='sequential'?'selected':''}>Sequential — ring one by one</option><option value="round-robin" ${rg.strategy==='round-robin'?'selected':''}>Round robin — rotate through members</option></select><label style="margin-top:0;margin-bottom:4px">Members <span style="font-weight:400;color:var(--color-text-secondary)">(tap to select)</span></label><div class="chips" id="chips_${rg.id}">${buildChipsHTML(rg)}</div>`;
+    c.appendChild(div);
+  });
+}
+
+function updateNumType(){
+  const val=document.querySelector('input[name="numType"]:checked').value;
+  document.getElementById('portSection').style.display=(val==='port'||val==='both')?'block':'none';
+  document.getElementById('newSection').style.display=(val==='new'||val==='both')?'block':'none';
+  ['port','new','both'].forEach(v=>document.getElementById('ropt-'+v).classList.toggle('sel',v===val));
+}
+
+function validateStep(){
+  if(cur===0){
+    let ok=true;
+    [[document.getElementById('companyName'),'fw0',v=>v.trim().length>0],[document.getElementById('contactName'),'fw1',v=>v.trim().length>0],[document.getElementById('contactEmail'),'fw2',v=>/^[^@]+@[^@]+\.[^@]+$/.test(v.trim())]].forEach(([el,fw,test])=>{
+      const pass=test(el.value);
+      document.getElementById(fw).classList.toggle('has-err',!pass);
+      if(!pass)ok=false;
+    });
+    return ok;
+  }
+  return true;
+}
+
+function showStep(n){
+  document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('active',i===n));
+  const nav=document.getElementById('mainNav');
+  nav.style.display=(n>=5)?'none':'flex';
+  document.getElementById('backBtn').style.visibility=n===0?'hidden':'visible';
+  document.getElementById('stepLabel').innerHTML=n<6?`Step <strong>${n+1} of ${SNAMES.length}</strong> — ${SNAMES[n]}`:'';
+  const pbs=document.querySelectorAll('.pb');
+  pbs.forEach((p,i)=>{p.className='pb'+(i<n?' done':i===n?' active':'');});
+}
+
+function goNext(){
+  if(!validateStep())return;
+  if(cur<5){cur++;showStep(cur);}
+}
+
+function goBack(){
+  if(cur>0){cur--;showStep(cur);}
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function collectData(){
+  saveUserInputs();saveRGInputs();
+  const hours=DAYS.map((d,i)=>({day:d,closed:document.getElementById('closed_'+i).checked,open:document.getElementById('open_'+i).value,close:document.getElementById('close_'+i).value}));
+  const numType=document.querySelector('input[name="numType"]:checked').value;
+  return{
+    company:document.getElementById('companyName').value,
+    contact:document.getElementById('contactName').value,
+    email:document.getElementById('contactEmail').value,
+    hours,
+    welcomeMsg:document.getElementById('welcomeMsg').value,
+    closedMsg:document.getElementById('closedMsg').value,
+    voicemailMsg:document.getElementById('voicemailMsg').value,
+    users:[...users],
+    rgs:[...rgs],
+    numType,
+    portNumbers:document.getElementById('portNumbers').value,
+    currentProvider:document.getElementById('currentProvider').value,
+    areaCode:document.getElementById('areaCode').value,
+    numQty:document.getElementById('numQty').value
+  };
+}
+
+function fmt(s){return s?s:'<span style="color:var(--color-text-secondary);font-style:italic">Not provided</span>';}
+
+function buildOverview(d){
+  const openDays=d.hours.filter(h=>!h.closed);
+  const numDesc={port:'Porting existing numbers',new:'Claiming new numbers',both:'Both porting & new numbers'}[d.numType]||'';
+
+  let hoursHTML=`<div class="hours-ov">`;
+  d.hours.forEach(h=>{
+    hoursHTML+=`<div class="hours-ov-day${h.closed?' closed-day':''}"><div class="hd-name">${h.day}</div><div class="hd-time">${h.closed?'Closed':`${h.open} – ${h.close}`}</div></div>`;
+  });
+  hoursHTML+='</div>';
+
+  let usersHTML='';
+  if(d.users.length){
+    usersHTML='<div class="user-card-grid">';
+    d.users.forEach(u=>{usersHTML+=`<div class="user-card"><div class="uc-name">${esc(getUserLabel(u))}</div><div class="uc-email">${esc(u.em)||'<span style="font-style:italic;color:var(--color-text-secondary)">No email</span>'}</div></div>`;});
+    usersHTML+='</div>';
+  }else{usersHTML='<p style="font-size:13px;color:var(--color-text-secondary)">No users added.</p>';}
+
+  let rgsHTML='';
+  if(d.rgs.length){
+    d.rgs.forEach(rg=>{
+      const members=rg.members.map(mid=>{const u=d.users.find(u=>u.id===mid);return u?getUserLabel(u):'Unknown';}).join(', ')||'No members selected';
+      rgsHTML+=`<div class="rg-ov"><div class="rg-ov-name">${esc(rg.name)||'Unnamed group'}</div><div class="rg-ov-members">Strategy: ${rg.strategy} &bull; Members: ${esc(members)}</div></div>`;
+    });
+  }else{rgsHTML='<p style="font-size:13px;color:var(--color-text-secondary)">No ring groups added.</p>';}
+
+  let numHTML=`<div class="sum-grid"><div class="sum-card"><div class="sum-lbl">Type</div><div class="sum-val">${numDesc}</div></div>`;
+  if(d.numType==='port'||d.numType==='both'){numHTML+=`<div class="sum-card"><div class="sum-lbl">Current provider</div><div class="sum-val">${esc(d.currentProvider)||'—'}</div></div>`;}
+  if(d.numType==='new'||d.numType==='both'){numHTML+=`<div class="sum-card"><div class="sum-lbl">Area code</div><div class="sum-val">${esc(d.areaCode)||'—'}</div></div><div class="sum-card"><div class="sum-lbl">Qty needed</div><div class="sum-val">${esc(d.numQty)||'—'}</div></div>`;}
+  if(d.numType==='port'||d.numType==='both'){numHTML+=`<div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Numbers to port</div><div class="sum-val-sm" style="white-space:pre-wrap">${esc(d.portNumbers)||'—'}</div></div>`;}
+  numHTML+='</div>';
+
+  return `
+    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-building" aria-hidden="true"></i>Company</div>
+      <div class="sum-grid">
+        <div class="sum-card"><div class="sum-lbl">Company</div><div class="sum-val">${esc(d.company)}</div></div>
+        <div class="sum-card"><div class="sum-lbl">Contact person</div><div class="sum-val">${esc(d.contact)}</div></div>
+        <div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Contact email</div><div class="sum-val">${esc(d.email)}</div></div>
+      </div>
+    </div>
+    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-clock" aria-hidden="true"></i>Opening hours <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">(${openDays.length} open day${openDays.length!==1?'s':''})</span></div>${hoursHTML}</div>
+    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-message-circle" aria-hidden="true"></i>Messages</div>
+      <div class="sum-grid">
+        <div class="sum-card"><div class="sum-lbl">Welcome message</div><div class="sum-val-sm">${esc(d.welcomeMsg)||'<span style="font-style:italic;color:var(--color-text-secondary)">Not provided</span>'}</div></div>
+        <div class="sum-card"><div class="sum-lbl">Closed message</div><div class="sum-val-sm">${esc(d.closedMsg)||'<span style="font-style:italic;color:var(--color-text-secondary)">Not provided</span>'}</div></div>
+        ${d.voicemailMsg?`<div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Voicemail greeting</div><div class="sum-val-sm">${esc(d.voicemailMsg)}</div></div>`:''}
+      </div>
+    </div>
+    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-users" aria-hidden="true"></i>Users <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">(${d.users.length})</span></div>${usersHTML}</div>
+    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-phone-incoming" aria-hidden="true"></i>Ring groups <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">(${d.rgs.length})</span></div>${rgsHTML}</div>
+    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-device-mobile" aria-hidden="true"></i>Phone numbers</div>${numHTML}</div>
+  `;
+}
+
+function submitForm(){
+  const data=collectData();
+  cur=6;
+  document.querySelectorAll('.pb').forEach(p=>p.className='pb done');
+  showStep(6);
+  document.getElementById('overviewOut').innerHTML=buildOverview(data);
+}
+
+function resetForm(){
+  cur=0;users=[];rgs=[];nextUserId=1;nextRgId=1;
+  ['companyName','contactName','contactEmail','welcomeMsg','closedMsg','voicemailMsg','portNumbers','currentProvider','areaCode','numQty'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['fw0','fw1','fw2'].forEach(id=>document.getElementById(id).classList.remove('has-err'));
+  buildHours();renderUsers();renderRGs();
+  document.querySelector('input[name="numType"][value="port"]').checked=true;
+  updateNumType();
+  const n=6;
+  document.querySelectorAll('.pb').forEach((p,i)=>{p.className='pb'+(i===0?'active':'');});
+  showStep(0);
+}
+
+const pbHTML=SNAMES.map((_,i)=>`<div class="pb${i===0?' active':''}"></div>`).join('');
+document.getElementById('progBar').innerHTML=pbHTML;
+buildHours();
+renderUsers();
+renderRGs();
+updateNumType();
+showStep(0);
+</script>
