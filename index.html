@@ -1,7 +1,26 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8x8 System Setup</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-.wrap{padding:2rem 0;max-width:680px}
+body{font-family:system-ui,sans-serif;background:#f9f9f7;color:#1a1a1a;padding:2rem 1rem}
+:root{
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f4f3ef;
+  --color-text-primary:#1a1a1a;
+  --color-text-secondary:#666660;
+  --color-border-tertiary:rgba(0,0,0,0.12);
+  --color-border-secondary:rgba(0,0,0,0.25);
+  --color-border-primary:rgba(0,0,0,0.35);
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+}
+.wrap{max-width:680px;margin:0 auto;padding:2rem 0}
 .header{margin-bottom:1.5rem}
 .header h1{font-size:22px;font-weight:500;color:var(--color-text-primary)}
 .header p{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
@@ -14,13 +33,21 @@
 .card-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;display:flex;align-items:center;gap:8px}
 .card-title i{font-size:18px;color:#1D9E75}
 .card-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.25rem}
-.contact-hint{font-size:12px;color:#1D9E75;background:#E1F5EE;border-radius:var(--border-radius-md);padding:8px 12px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:6px}
+.contact-hint{font-size:12px;color:#0F6E56;background:#E1F5EE;border-radius:var(--border-radius-md);padding:8px 12px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:6px}
 .contact-hint i{font-size:14px;flex-shrink:0;margin-top:1px}
 label{display:block;font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;margin-top:12px}
 label:first-of-type{margin-top:0}
-input[type=text],input[type=email],input[type=time],select,textarea{width:100%;font-size:14px;border-radius:var(--border-radius-md)}
+input[type=text],input[type=email],input[type=time],select,textarea{
+  width:100%;font-size:14px;border-radius:var(--border-radius-md);
+  border:.5px solid var(--color-border-secondary);
+  background:var(--color-background-primary);
+  color:var(--color-text-primary);
+  padding:8px 10px;outline:none;
+}
+input[type=text]:focus,input[type=email]:focus,input[type=time]:focus,select:focus,textarea:focus{
+  border-color:#1D9E75;box-shadow:0 0 0 2px rgba(29,158,117,0.15);
+}
 textarea{resize:vertical;min-height:80px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;gap:12px}
 .btn{font-size:14px;padding:8px 20px;border-radius:var(--border-radius-md);cursor:pointer;border:.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);transition:background .15s,transform .1s}
 .btn:hover{background:var(--color-background-secondary)}.btn:active{transform:scale(.98)}
@@ -79,25 +106,26 @@ input[type=time]:disabled,select:disabled{opacity:.4;pointer-events:none}
 .check-circle{width:52px;height:52px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
 .check-circle i{font-size:26px;color:#1D9E75}
 </style>
-
-<h2 class="sr-only">8x8 phone system setup — multi-step configuration form</h2>
+</head>
+<body>
 
 <div class="wrap">
   <div class="header">
-    <h1><i class="ti ti-phone-call" aria-hidden="true" style="font-size:20px;vertical-align:-3px;margin-right:8px;color:#1D9E75"></i>8x8 system setup</h1>
+    <h1><i class="ti ti-phone-call" style="font-size:20px;vertical-align:-3px;margin-right:8px;color:#1D9E75"></i>8x8 system setup</h1>
     <p>Tell us how you'd like your phone system configured. Takes around 5 minutes.</p>
   </div>
   <div class="progress-bar" id="progBar"></div>
   <div class="step-label" id="stepLabel"></div>
 
+  <!-- Step 0: Company details -->
   <div class="step active" id="step0">
     <div class="card">
-      <div class="card-title"><i class="ti ti-building" aria-hidden="true"></i>Company details</div>
+      <div class="card-title"><i class="ti ti-building"></i>Company details</div>
       <div class="card-sub">Basic information about your business</div>
       <label for="companyName">Company name</label>
       <div id="fw0"><input type="text" id="companyName" placeholder="Acme Ltd"><div class="err-msg">Please enter your company name</div></div>
-      <hr style="margin:1.25rem 0">
-      <div class="contact-hint"><i class="ti ti-info-circle" aria-hidden="true"></i><span>Your name and email are used as the primary contact. We'll only reach out if we need to clarify any details about your setup.</span></div>
+      <hr>
+      <div class="contact-hint"><i class="ti ti-info-circle"></i><span>Your name and email are used as the primary contact. We'll only reach out if we need to clarify any details about your setup.</span></div>
       <label for="contactName">Your name</label>
       <div id="fw1"><input type="text" id="contactName" placeholder="Jane Smith"><div class="err-msg">Please enter your name</div></div>
       <label for="contactEmail">Your email address</label>
@@ -105,18 +133,20 @@ input[type=time]:disabled,select:disabled{opacity:.4;pointer-events:none}
     </div>
   </div>
 
+  <!-- Step 1: Opening hours -->
   <div class="step" id="step1">
     <div class="card">
-      <div class="card-title"><i class="ti ti-clock" aria-hidden="true"></i>Opening hours</div>
+      <div class="card-title"><i class="ti ti-clock"></i>Opening hours</div>
       <div class="card-sub">Set your business hours for each day of the week</div>
       <div class="hours-head"><span>Day</span><span>Opens</span><span>Closes</span><span>Closed</span></div>
       <div id="hoursContainer"></div>
     </div>
   </div>
 
+  <!-- Step 2: Messages -->
   <div class="step" id="step2">
     <div class="card">
-      <div class="card-title"><i class="ti ti-message-circle" aria-hidden="true"></i>Welcome &amp; out-of-hours messages</div>
+      <div class="card-title"><i class="ti ti-message-circle"></i>Welcome &amp; out-of-hours messages</div>
       <div class="card-sub">These are played to callers when they connect or call outside business hours</div>
       <label for="welcomeMsg">Welcome message</label>
       <textarea id="welcomeMsg" placeholder="e.g. Thank you for calling Acme Ltd. Your call is important to us..."></textarea>
@@ -129,33 +159,36 @@ input[type=time]:disabled,select:disabled{opacity:.4;pointer-events:none}
     </div>
   </div>
 
+  <!-- Step 3: Users -->
   <div class="step" id="step3">
     <div class="card">
-      <div class="card-title"><i class="ti ti-users" aria-hidden="true"></i>Users</div>
+      <div class="card-title"><i class="ti ti-users"></i>Users</div>
       <div class="card-sub">Add everyone who needs a phone extension on the system</div>
       <div id="usersContainer"><p style="font-size:13px;color:var(--color-text-secondary)">No users added yet.</p></div>
-      <button class="add-btn" onclick="addUser()"><i class="ti ti-plus" aria-hidden="true"></i>Add another user</button>
+      <button class="add-btn" onclick="addUser()"><i class="ti ti-plus"></i>Add another user</button>
     </div>
   </div>
 
+  <!-- Step 4: Ring groups -->
   <div class="step" id="step4">
     <div class="card">
-      <div class="card-title"><i class="ti ti-phone-incoming" aria-hidden="true"></i>Ring groups</div>
+      <div class="card-title"><i class="ti ti-phone-incoming"></i>Ring groups</div>
       <div class="card-sub">Create groups whose phones ring together when a number is called</div>
       <div id="rgContainer"><p style="font-size:13px;color:var(--color-text-secondary)">No ring groups added yet.</p></div>
-      <button class="add-btn" onclick="addRingGroup()"><i class="ti ti-plus" aria-hidden="true"></i>Add ring group</button>
+      <button class="add-btn" onclick="addRingGroup()"><i class="ti ti-plus"></i>Add ring group</button>
     </div>
   </div>
 
+  <!-- Step 5: Phone numbers -->
   <div class="step" id="step5">
     <div class="card">
-      <div class="card-title"><i class="ti ti-device-mobile" aria-hidden="true"></i>Phone numbers</div>
+      <div class="card-title"><i class="ti ti-device-mobile"></i>Phone numbers</div>
       <div class="card-sub">Will you be bringing existing numbers over or getting new ones?</div>
       <label>Number type</label>
       <div class="radio-group">
-        <label class="radio-opt sel" id="ropt-port"><input type="radio" name="numType" value="port" checked onchange="updateNumType()"><i class="ti ti-transfer" aria-hidden="true"></i>Port existing numbers</label>
-        <label class="radio-opt" id="ropt-new"><input type="radio" name="numType" value="new" onchange="updateNumType()"><i class="ti ti-plus-circle" aria-hidden="true"></i>Claim new numbers</label>
-        <label class="radio-opt" id="ropt-both"><input type="radio" name="numType" value="both" onchange="updateNumType()"><i class="ti ti-arrows-exchange" aria-hidden="true"></i>Both</label>
+        <label class="radio-opt sel" id="ropt-port"><input type="radio" name="numType" value="port" checked onchange="updateNumType()"><i class="ti ti-transfer"></i>Port existing numbers</label>
+        <label class="radio-opt" id="ropt-new"><input type="radio" name="numType" value="new" onchange="updateNumType()"><i class="ti ti-plus-circle"></i>Claim new numbers</label>
+        <label class="radio-opt" id="ropt-both"><input type="radio" name="numType" value="both" onchange="updateNumType()"><i class="ti ti-arrows-exchange"></i>Both</label>
       </div>
       <div id="portSection" style="margin-top:1.25rem">
         <hr style="margin-top:0">
@@ -173,19 +206,45 @@ input[type=time]:disabled,select:disabled{opacity:.4;pointer-events:none}
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn" onclick="goBack()"><i class="ti ti-arrow-left" aria-hidden="true" style="margin-right:4px"></i>Back</button>
-      <button class="btn primary" onclick="submitForm()">Submit configuration <i class="ti ti-send" aria-hidden="true" style="margin-left:4px"></i></button>
+      <button class="btn" onclick="goBack()"><i class="ti ti-arrow-left" style="margin-right:4px"></i>Back</button>
+      <button class="btn primary" onclick="submitForm()">Submit configuration <i class="ti ti-send" style="margin-left:4px"></i></button>
     </div>
   </div>
 
+  <!-- Step 6: Success + Overview -->
   <div class="step" id="step6">
     <div class="card">
       <div class="success-top">
-        <div class="check-circle"><i class="ti ti-check" aria-hidden="true"></i></div>
-        <h2 style="font-size:20px;font-weight:500;margin-bottom:6px">Configuration received</h2>
-        <p style="font-size:14px;color:var(--color-text-secondary)">Your 8x8 setup details have been submitted. A member of our team will be in touch if we need anything further.</p>
+        <div class="check-circle"><i class="ti ti-check"></i></div>
+        <h2 style="font-size:20px;font-weight:500;margin-bottom:6px">Configuration complete!</h2>
+        <p style="font-size:14px;color:var(--color-text-secondary)">Your setup details are ready. Please download your configuration PDF and send it to us using one of the options below.</p>
       </div>
+
+      <!-- PDF download + send instructions -->
+      <div style="background:#F0FBF7;border:1px solid #A8DFC9;border-radius:10px;padding:1.25rem 1.5rem;margin:0 0 1.25rem">
+        <div style="font-size:14px;font-weight:500;color:#0F6E56;margin-bottom:12px;display:flex;align-items:center;gap:7px"><i class="ti ti-file-download" style="font-size:18px"></i>Step 1 — Download your configuration PDF</div>
+        <button class="btn primary" id="dlBtn" onclick="downloadPDF()" style="font-size:14px;padding:10px 22px;display:flex;align-items:center;gap:8px;margin-bottom:0">
+          <i class="ti ti-download"></i> Download PDF
+        </button>
+        <div id="dlConfirm" style="display:none;margin-top:10px;font-size:13px;color:#0F6E56;display:none;align-items:center;gap:6px"><i class="ti ti-circle-check"></i> PDF downloaded — now send it to us below.</div>
+      </div>
+
+      <div style="background:#F5F5FF;border:1px solid #C5C5E8;border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1.25rem">
+        <div style="font-size:14px;font-weight:500;color:#3B3B8F;margin-bottom:12px;display:flex;align-items:center;gap:7px"><i class="ti ti-send" style="font-size:18px"></i>Step 2 — Send us the PDF (choose one)</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="mailto:ccsupport@zest4.com?subject=8x8%20Setup%20Configuration%20-%20{{company}}&body=Hi%20CC%20Support%2C%0A%0APlease%20find%20my%208x8%20setup%20configuration%20attached%20as%20a%20PDF.%0A%0AKind%20regards" id="emailLink" style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #C5C5E8;border-radius:8px;padding:10px 14px;text-decoration:none;color:#3B3B8F;font-size:13px;font-weight:500;transition:background .15s">
+            <i class="ti ti-mail" style="font-size:18px;flex-shrink:0;color:#5B5BCC"></i>
+            <span><strong>Email us</strong> — ccsupport@zest4.com<br><span style="font-weight:400;color:#666;font-size:12px">Click to open your email client with a pre-filled message, then attach the PDF</span></span>
+          </a>
+          <a href="https://zest4customer.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #C5C5E8;border-radius:8px;padding:10px 14px;text-decoration:none;color:#3B3B8F;font-size:13px;font-weight:500;transition:background .15s">
+            <i class="ti ti-ticket" style="font-size:18px;flex-shrink:0;color:#5B5BCC"></i>
+            <span><strong>Raise a support ticket</strong> — zest4customer.com<br><span style="font-weight:400;color:#666;font-size:12px">Log in to the customer portal and attach the PDF to a new ticket</span></span>
+          </a>
+        </div>
+      </div>
+
       <hr>
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em">Your configuration summary</div>
       <div id="overviewOut"></div>
     </div>
     <div style="text-align:center;margin-top:1rem">
@@ -193,9 +252,10 @@ input[type=time]:disabled,select:disabled{opacity:.4;pointer-events:none}
     </div>
   </div>
 
+  <!-- Main nav (steps 0-4) -->
   <div class="btn-row" id="mainNav">
-    <button class="btn" id="backBtn" onclick="goBack()"><i class="ti ti-arrow-left" aria-hidden="true" style="margin-right:4px"></i>Back</button>
-    <button class="btn primary" id="nextBtn" onclick="goNext()">Continue <i class="ti ti-arrow-right" aria-hidden="true" style="margin-left:4px"></i></button>
+    <button class="btn" id="backBtn" onclick="goBack()"><i class="ti ti-arrow-left" style="margin-right:4px"></i>Back</button>
+    <button class="btn primary" id="nextBtn" onclick="goNext()">Continue <i class="ti ti-arrow-right" style="margin-left:4px"></i></button>
   </div>
 </div>
 
@@ -215,7 +275,7 @@ function buildHours(){
     const isClosed=i>=5;
     const row=document.createElement('div');
     row.className='hours-row';
-    row.innerHTML=`<span class="day-lbl">${d}</span><input type="time" id="open_${i}" value="09:00" ${isClosed?'disabled':''}><input type="time" id="close_${i}" value="17:00" ${isClosed?'disabled':''}><label class="closed-tog"><input type="checkbox" id="closed_${i}" ${isClosed?'checked':''} onchange="toggleDay(${i})">Closed</label>`;
+    row.innerHTML='<span class="day-lbl">'+d+'</span><input type="time" id="open_'+i+'" value="09:00" '+(isClosed?'disabled':'')+'><input type="time" id="close_'+i+'" value="17:00" '+(isClosed?'disabled':'')+'><label class="closed-tog"><input type="checkbox" id="closed_'+i+'" '+(isClosed?'checked':'')+' onchange="toggleDay('+i+')">Closed</label>';
     c.appendChild(row);
   });
 }
@@ -264,7 +324,7 @@ function renderUsers(){
   users.forEach(u=>{
     const row=document.createElement('div');
     row.className='user-row';
-    row.innerHTML=`<div><label>First name</label><input type="text" id="ufn_${u.id}" placeholder="Jane" value="${esc(u.fn)}" oninput="onUserInput(${u.id},'fn',this.value)"></div><div><label>Last name</label><input type="text" id="uln_${u.id}" placeholder="Smith" value="${esc(u.ln)}" oninput="onUserInput(${u.id},'ln',this.value)"></div><div style="flex:1.5"><label>Email address</label><input type="email" id="uem_${u.id}" placeholder="jane@acme.com" value="${esc(u.em)}" oninput="onUserInput(${u.id},'em',this.value)"></div><button class="rm-btn ti ti-trash" aria-label="Remove user" onclick="removeUser(${u.id})"></button>`;
+    row.innerHTML='<div><label>First name</label><input type="text" id="ufn_'+u.id+'" placeholder="Jane" value="'+esc(u.fn)+'" oninput="onUserInput('+u.id+',\'fn\',this.value)"></div><div><label>Last name</label><input type="text" id="uln_'+u.id+'" placeholder="Smith" value="'+esc(u.ln)+'" oninput="onUserInput('+u.id+',\'ln\',this.value)"></div><div style="flex:1.5"><label>Email address</label><input type="email" id="uem_'+u.id+'" placeholder="jane@acme.com" value="'+esc(u.em)+'" oninput="onUserInput('+u.id+',\'em\',this.value)"></div><button class="rm-btn ti ti-trash" aria-label="Remove user" onclick="removeUser('+u.id+')"></button>';
     c.appendChild(row);
   });
 }
@@ -287,7 +347,7 @@ function buildChipsHTML(rg){
   if(!users.length)return '<span style="font-size:12px;color:var(--color-text-secondary)">Add users first in the previous step</span>';
   return users.map(u=>{
     const on=(rg.members||[]).includes(u.id);
-    return `<button class="chip${on?' on':''}" onclick="toggleMember(${rg.id},${u.id})">${esc(getUserLabel(u))}</button>`;
+    return '<button class="chip'+(on?' on':'')+'" onclick="toggleMember('+rg.id+','+u.id+')">'+esc(getUserLabel(u))+'</button>';
   }).join('');
 }
 
@@ -338,7 +398,7 @@ function renderRGs(){
   rgs.forEach(rg=>{
     const div=document.createElement('div');
     div.className='rg-block';
-    div.innerHTML=`<div class="rg-header"><input type="text" class="rg-name-input" id="rgn_${rg.id}" placeholder="Ring group name (e.g. Sales team)" value="${esc(rg.name)}" oninput="onRGName(${rg.id},this.value)"><button class="rm-btn ti ti-trash" aria-label="Remove ring group" onclick="removeRG(${rg.id})"></button></div><label style="margin-top:0;margin-bottom:4px">Ring strategy</label><select id="rgs_${rg.id}" style="width:auto;margin-bottom:12px" onchange="onRGStrat(${rg.id},this.value)"><option value="simultaneous" ${rg.strategy==='simultaneous'?'selected':''}>Simultaneous — all ring at once</option><option value="sequential" ${rg.strategy==='sequential'?'selected':''}>Sequential — ring one by one</option><option value="round-robin" ${rg.strategy==='round-robin'?'selected':''}>Round robin — rotate through members</option></select><label style="margin-top:0;margin-bottom:4px">Members <span style="font-weight:400;color:var(--color-text-secondary)">(tap to select)</span></label><div class="chips" id="chips_${rg.id}">${buildChipsHTML(rg)}</div>`;
+    div.innerHTML='<div class="rg-header"><input type="text" class="rg-name-input" id="rgn_'+rg.id+'" placeholder="Ring group name (e.g. Sales team)" value="'+esc(rg.name)+'" oninput="onRGName('+rg.id+',this.value)"><button class="rm-btn ti ti-trash" aria-label="Remove ring group" onclick="removeRG('+rg.id+')"></button></div><label style="margin-top:0;margin-bottom:4px">Ring strategy</label><select id="rgs_'+rg.id+'" style="width:auto;margin-bottom:12px" onchange="onRGStrat('+rg.id+',this.value)"><option value="simultaneous" '+(rg.strategy==='simultaneous'?'selected':'')+'>Simultaneous — all ring at once</option><option value="sequential" '+(rg.strategy==='sequential'?'selected':'')+'>Sequential — ring one by one</option><option value="round-robin" '+(rg.strategy==='round-robin'?'selected':'')+'>Round robin — rotate through members</option></select><label style="margin-top:0;margin-bottom:4px">Members <span style="font-weight:400;color:var(--color-text-secondary)">(tap to select)</span></label><div class="chips" id="chips_'+rg.id+'">'+buildChipsHTML(rg)+'</div>';
     c.appendChild(div);
   });
 }
@@ -353,8 +413,9 @@ function updateNumType(){
 function validateStep(){
   if(cur===0){
     let ok=true;
-    [[document.getElementById('companyName'),'fw0',v=>v.trim().length>0],[document.getElementById('contactName'),'fw1',v=>v.trim().length>0],[document.getElementById('contactEmail'),'fw2',v=>/^[^@]+@[^@]+\.[^@]+$/.test(v.trim())]].forEach(([el,fw,test])=>{
-      const pass=test(el.value);
+    [[document.getElementById('companyName'),'fw0',function(v){return v.trim().length>0}],[document.getElementById('contactName'),'fw1',function(v){return v.trim().length>0}],[document.getElementById('contactEmail'),'fw2',function(v){return /^[^@]+@[^@]+\.[^@]+$/.test(v.trim())}]].forEach(function(arr){
+      var el=arr[0],fw=arr[1],test=arr[2];
+      var pass=test(el.value);
       document.getElementById(fw).classList.toggle('has-err',!pass);
       if(!pass)ok=false;
     });
@@ -364,13 +425,12 @@ function validateStep(){
 }
 
 function showStep(n){
-  document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('active',i===n));
-  const nav=document.getElementById('mainNav');
+  document.querySelectorAll('.step').forEach(function(s,i){s.classList.toggle('active',i===n);});
+  var nav=document.getElementById('mainNav');
   nav.style.display=(n>=5)?'none':'flex';
   document.getElementById('backBtn').style.visibility=n===0?'hidden':'visible';
-  document.getElementById('stepLabel').innerHTML=n<6?`Step <strong>${n+1} of ${SNAMES.length}</strong> — ${SNAMES[n]}`:'';
-  const pbs=document.querySelectorAll('.pb');
-  pbs.forEach((p,i)=>{p.className='pb'+(i<n?' done':i===n?' active':'');});
+  document.getElementById('stepLabel').innerHTML=n<6?'Step <strong>'+(n+1)+' of '+SNAMES.length+'</strong> — '+SNAMES[n]:'';
+  document.querySelectorAll('.pb').forEach(function(p,i){p.className='pb'+(i<n?' done':i===n?' active':'');});
 }
 
 function goNext(){
@@ -386,19 +446,19 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'
 
 function collectData(){
   saveUserInputs();saveRGInputs();
-  const hours=DAYS.map((d,i)=>({day:d,closed:document.getElementById('closed_'+i).checked,open:document.getElementById('open_'+i).value,close:document.getElementById('close_'+i).value}));
-  const numType=document.querySelector('input[name="numType"]:checked').value;
+  var hours=DAYS.map(function(d,i){return{day:d,closed:document.getElementById('closed_'+i).checked,open:document.getElementById('open_'+i).value,close:document.getElementById('close_'+i).value};});
+  var numType=document.querySelector('input[name="numType"]:checked').value;
   return{
     company:document.getElementById('companyName').value,
     contact:document.getElementById('contactName').value,
     email:document.getElementById('contactEmail').value,
-    hours,
+    hours:hours,
     welcomeMsg:document.getElementById('welcomeMsg').value,
     closedMsg:document.getElementById('closedMsg').value,
     voicemailMsg:document.getElementById('voicemailMsg').value,
-    users:[...users],
-    rgs:[...rgs],
-    numType,
+    users:users.slice(),
+    rgs:rgs.slice(),
+    numType:numType,
     portNumbers:document.getElementById('portNumbers').value,
     currentProvider:document.getElementById('currentProvider').value,
     areaCode:document.getElementById('areaCode').value,
@@ -406,82 +466,253 @@ function collectData(){
   };
 }
 
-function fmt(s){return s?s:'<span style="color:var(--color-text-secondary);font-style:italic">Not provided</span>';}
-
 function buildOverview(d){
-  const openDays=d.hours.filter(h=>!h.closed);
-  const numDesc={port:'Porting existing numbers',new:'Claiming new numbers',both:'Both porting & new numbers'}[d.numType]||'';
+  var openDays=d.hours.filter(function(h){return!h.closed;});
+  var numDesc={port:'Porting existing numbers',new:'Claiming new numbers',both:'Both porting & new numbers'}[d.numType]||'';
 
-  let hoursHTML=`<div class="hours-ov">`;
-  d.hours.forEach(h=>{
-    hoursHTML+=`<div class="hours-ov-day${h.closed?' closed-day':''}"><div class="hd-name">${h.day}</div><div class="hd-time">${h.closed?'Closed':`${h.open} – ${h.close}`}</div></div>`;
+  var hoursHTML='<div class="hours-ov">';
+  d.hours.forEach(function(h){
+    hoursHTML+='<div class="hours-ov-day'+(h.closed?' closed-day':'')+'"><div class="hd-name">'+h.day+'</div><div class="hd-time">'+(h.closed?'Closed':h.open+' – '+h.close)+'</div></div>';
   });
   hoursHTML+='</div>';
 
-  let usersHTML='';
+  var usersHTML='';
   if(d.users.length){
     usersHTML='<div class="user-card-grid">';
-    d.users.forEach(u=>{usersHTML+=`<div class="user-card"><div class="uc-name">${esc(getUserLabel(u))}</div><div class="uc-email">${esc(u.em)||'<span style="font-style:italic;color:var(--color-text-secondary)">No email</span>'}</div></div>`;});
+    d.users.forEach(function(u){usersHTML+='<div class="user-card"><div class="uc-name">'+esc(getUserLabel(u))+'</div><div class="uc-email">'+(esc(u.em)||'<span style="font-style:italic;color:var(--color-text-secondary)">No email</span>')+'</div></div>';});
     usersHTML+='</div>';
   }else{usersHTML='<p style="font-size:13px;color:var(--color-text-secondary)">No users added.</p>';}
 
-  let rgsHTML='';
+  var rgsHTML='';
   if(d.rgs.length){
-    d.rgs.forEach(rg=>{
-      const members=rg.members.map(mid=>{const u=d.users.find(u=>u.id===mid);return u?getUserLabel(u):'Unknown';}).join(', ')||'No members selected';
-      rgsHTML+=`<div class="rg-ov"><div class="rg-ov-name">${esc(rg.name)||'Unnamed group'}</div><div class="rg-ov-members">Strategy: ${rg.strategy} &bull; Members: ${esc(members)}</div></div>`;
+    d.rgs.forEach(function(rg){
+      var members=rg.members.map(function(mid){var u=d.users.find(function(u){return u.id===mid;});return u?getUserLabel(u):'Unknown';}).join(', ')||'No members selected';
+      rgsHTML+='<div class="rg-ov"><div class="rg-ov-name">'+(esc(rg.name)||'Unnamed group')+'</div><div class="rg-ov-members">Strategy: '+rg.strategy+' &bull; Members: '+esc(members)+'</div></div>';
     });
   }else{rgsHTML='<p style="font-size:13px;color:var(--color-text-secondary)">No ring groups added.</p>';}
 
-  let numHTML=`<div class="sum-grid"><div class="sum-card"><div class="sum-lbl">Type</div><div class="sum-val">${numDesc}</div></div>`;
-  if(d.numType==='port'||d.numType==='both'){numHTML+=`<div class="sum-card"><div class="sum-lbl">Current provider</div><div class="sum-val">${esc(d.currentProvider)||'—'}</div></div>`;}
-  if(d.numType==='new'||d.numType==='both'){numHTML+=`<div class="sum-card"><div class="sum-lbl">Area code</div><div class="sum-val">${esc(d.areaCode)||'—'}</div></div><div class="sum-card"><div class="sum-lbl">Qty needed</div><div class="sum-val">${esc(d.numQty)||'—'}</div></div>`;}
-  if(d.numType==='port'||d.numType==='both'){numHTML+=`<div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Numbers to port</div><div class="sum-val-sm" style="white-space:pre-wrap">${esc(d.portNumbers)||'—'}</div></div>`;}
+  var numHTML='<div class="sum-grid"><div class="sum-card"><div class="sum-lbl">Type</div><div class="sum-val">'+numDesc+'</div></div>';
+  if(d.numType==='port'||d.numType==='both'){numHTML+='<div class="sum-card"><div class="sum-lbl">Current provider</div><div class="sum-val">'+(esc(d.currentProvider)||'—')+'</div></div>';}
+  if(d.numType==='new'||d.numType==='both'){numHTML+='<div class="sum-card"><div class="sum-lbl">Area code</div><div class="sum-val">'+(esc(d.areaCode)||'—')+'</div></div><div class="sum-card"><div class="sum-lbl">Qty needed</div><div class="sum-val">'+(esc(d.numQty)||'—')+'</div></div>';}
+  if(d.numType==='port'||d.numType==='both'){numHTML+='<div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Numbers to port</div><div class="sum-val-sm" style="white-space:pre-wrap">'+(esc(d.portNumbers)||'—')+'</div></div>';}
   numHTML+='</div>';
 
-  return `
-    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-building" aria-hidden="true"></i>Company</div>
-      <div class="sum-grid">
-        <div class="sum-card"><div class="sum-lbl">Company</div><div class="sum-val">${esc(d.company)}</div></div>
-        <div class="sum-card"><div class="sum-lbl">Contact person</div><div class="sum-val">${esc(d.contact)}</div></div>
-        <div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Contact email</div><div class="sum-val">${esc(d.email)}</div></div>
-      </div>
-    </div>
-    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-clock" aria-hidden="true"></i>Opening hours <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">(${openDays.length} open day${openDays.length!==1?'s':''})</span></div>${hoursHTML}</div>
-    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-message-circle" aria-hidden="true"></i>Messages</div>
-      <div class="sum-grid">
-        <div class="sum-card"><div class="sum-lbl">Welcome message</div><div class="sum-val-sm">${esc(d.welcomeMsg)||'<span style="font-style:italic;color:var(--color-text-secondary)">Not provided</span>'}</div></div>
-        <div class="sum-card"><div class="sum-lbl">Closed message</div><div class="sum-val-sm">${esc(d.closedMsg)||'<span style="font-style:italic;color:var(--color-text-secondary)">Not provided</span>'}</div></div>
-        ${d.voicemailMsg?`<div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Voicemail greeting</div><div class="sum-val-sm">${esc(d.voicemailMsg)}</div></div>`:''}
-      </div>
-    </div>
-    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-users" aria-hidden="true"></i>Users <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">(${d.users.length})</span></div>${usersHTML}</div>
-    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-phone-incoming" aria-hidden="true"></i>Ring groups <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">(${d.rgs.length})</span></div>${rgsHTML}</div>
-    <div class="ov-section"><div class="ov-section-title"><i class="ti ti-device-mobile" aria-hidden="true"></i>Phone numbers</div>${numHTML}</div>
-  `;
+  return '<div class="ov-section"><div class="ov-section-title"><i class="ti ti-building"></i>Company</div><div class="sum-grid"><div class="sum-card"><div class="sum-lbl">Company</div><div class="sum-val">'+esc(d.company)+'</div></div><div class="sum-card"><div class="sum-lbl">Contact person</div><div class="sum-val">'+esc(d.contact)+'</div></div><div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Contact email</div><div class="sum-val">'+esc(d.email)+'</div></div></div></div>'
+    +'<div class="ov-section"><div class="ov-section-title"><i class="ti ti-clock"></i>Opening hours <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">('+openDays.length+' open day'+(openDays.length!==1?'s':'')+')</span></div>'+hoursHTML+'</div>'
+    +'<div class="ov-section"><div class="ov-section-title"><i class="ti ti-message-circle"></i>Messages</div><div class="sum-grid"><div class="sum-card"><div class="sum-lbl">Welcome message</div><div class="sum-val-sm">'+(esc(d.welcomeMsg)||'<span style="font-style:italic;color:var(--color-text-secondary)">Not provided</span>')+'</div></div><div class="sum-card"><div class="sum-lbl">Closed message</div><div class="sum-val-sm">'+(esc(d.closedMsg)||'<span style="font-style:italic;color:var(--color-text-secondary)">Not provided</span>')+'</div></div>'+(d.voicemailMsg?'<div class="sum-card" style="grid-column:1/-1"><div class="sum-lbl">Voicemail greeting</div><div class="sum-val-sm">'+esc(d.voicemailMsg)+'</div></div>':'')+'</div></div>'
+    +'<div class="ov-section"><div class="ov-section-title"><i class="ti ti-users"></i>Users <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">('+d.users.length+')</span></div>'+usersHTML+'</div>'
+    +'<div class="ov-section"><div class="ov-section-title"><i class="ti ti-phone-incoming"></i>Ring groups <span style="font-weight:400;font-size:12px;color:var(--color-text-secondary);text-transform:none;letter-spacing:0">('+d.rgs.length+')</span></div>'+rgsHTML+'</div>'
+    +'<div class="ov-section"><div class="ov-section-title"><i class="ti ti-device-mobile"></i>Phone numbers</div>'+numHTML+'</div>';
+}
+
+var _pdfData = null;
+
+function buildPlainSummary(d){
+  var numDesc={port:'Porting existing numbers',new:'Claiming new numbers',both:'Both porting & new numbers'}[d.numType]||'';
+  var lines=[];
+  lines.push('COMPANY: '+d.company);
+  lines.push('CONTACT: '+d.contact);
+  lines.push('CONTACT EMAIL: '+d.email);
+  lines.push('');
+  lines.push('OPENING HOURS');
+  d.hours.forEach(function(h){lines.push('  '+h.day+': '+(h.closed?'Closed':h.open+' - '+h.close));});
+  lines.push('');
+  lines.push('MESSAGES');
+  lines.push('  Welcome: '+(d.welcomeMsg||'Not provided'));
+  lines.push('  Closed:  '+(d.closedMsg||'Not provided'));
+  if(d.voicemailMsg)lines.push('  Voicemail: '+d.voicemailMsg);
+  lines.push('');
+  lines.push('USERS ('+d.users.length+')');
+  if(d.users.length){d.users.forEach(function(u,i){lines.push('  '+(i+1)+'. '+getUserLabel(u)+(u.em?' | '+u.em:''));});}
+  else lines.push('  None added.');
+  lines.push('');
+  lines.push('RING GROUPS ('+d.rgs.length+')');
+  if(d.rgs.length){
+    d.rgs.forEach(function(rg,i){
+      var members=rg.members.map(function(mid){var u=d.users.find(function(u){return u.id===mid;});return u?getUserLabel(u):'Unknown';}).join(', ')||'No members';
+      lines.push('  '+(i+1)+'. '+(rg.name||'Unnamed')+' | Strategy: '+rg.strategy);
+      lines.push('     Members: '+members);
+    });
+  }else lines.push('  None added.');
+  lines.push('');
+  lines.push('PHONE NUMBERS');
+  lines.push('  Type: '+numDesc);
+  if(d.numType==='port'||d.numType==='both'){
+    lines.push('  Current provider: '+(d.currentProvider||'Not provided'));
+    lines.push('  Numbers to port:');
+    (d.portNumbers||'').split('\n').forEach(function(n){if(n.trim())lines.push('    '+n.trim());});
+  }
+  if(d.numType==='new'||d.numType==='both'){
+    lines.push('  Area code: '+(d.areaCode||'Not provided'));
+    lines.push('  Quantity needed: '+(d.numQty||'Not provided'));
+  }
+  return lines;
+}
+
+function downloadPDF(){
+  if(!_pdfData)return;
+  var d=_pdfData;
+  var jspdf=window.jspdf;
+  var doc=new jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  var pw=210,pl=18,pr=18,cw=pw-pl-pr;
+  var y=18;
+
+  // Header bar
+  doc.setFillColor(29,158,117);
+  doc.rect(0,0,210,22,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(15);doc.setFont('helvetica','bold');
+  doc.text('8x8 System Setup — Configuration',pl,14);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text('Generated '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}),pw-pr,14,{align:'right'});
+  y=30;
+
+  function sectionTitle(title){
+    doc.setFillColor(240,251,247);
+    doc.rect(pl,y,cw,7,'F');
+    doc.setDrawColor(168,223,201);
+    doc.rect(pl,y,cw,7,'S');
+    doc.setTextColor(15,110,86);
+    doc.setFontSize(9);doc.setFont('helvetica','bold');
+    doc.text(title.toUpperCase(),pl+3,y+5);
+    y+=10;
+    doc.setTextColor(30,30,30);
+    doc.setFont('helvetica','normal');
+  }
+
+  function row(label,value,gray){
+    if(y>270){doc.addPage();y=18;}
+    if(gray){doc.setFillColor(249,249,247);doc.rect(pl,y,cw,6.5,'F');}
+    doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(80,80,80);
+    doc.text(label,pl+2,y+4.5);
+    doc.setFont('helvetica','normal');doc.setTextColor(20,20,20);
+    var wrapped=doc.splitTextToSize(value||'—',cw-52);
+    doc.text(wrapped,pl+52,y+4.5);
+    y+=Math.max(6.5,wrapped.length*5);
+  }
+
+  function multiRow(label,lines){
+    if(y>265){doc.addPage();y=18;}
+    doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(80,80,80);
+    doc.text(label,pl+2,y+4.5);
+    doc.setFont('helvetica','normal');doc.setTextColor(20,20,20);
+    var allText=lines.join('\n');
+    var wrapped=doc.splitTextToSize(allText,cw-52);
+    doc.text(wrapped,pl+52,y+4.5);
+    y+=Math.max(6.5,wrapped.length*5)+2;
+  }
+
+  // Company
+  sectionTitle('Company & Contact');
+  row('Company',d.company,false);
+  row('Contact name',d.contact,true);
+  row('Contact email',d.email,false);
+  y+=3;
+
+  // Hours
+  sectionTitle('Opening Hours');
+  d.hours.forEach(function(h,i){
+    row(h.day,h.closed?'Closed':h.open+' – '+h.close,i%2===1);
+  });
+  y+=3;
+
+  // Messages
+  sectionTitle('Messages');
+  multiRow('Welcome message',doc.splitTextToSize(d.welcomeMsg||'Not provided',cw-54));
+  multiRow('Closed message',doc.splitTextToSize(d.closedMsg||'Not provided',cw-54));
+  if(d.voicemailMsg)multiRow('Voicemail greeting',doc.splitTextToSize(d.voicemailMsg,cw-54));
+  y+=3;
+
+  // Users
+  sectionTitle('Users ('+d.users.length+')');
+  if(!d.users.length){row('','No users added.',false);}
+  else{
+    d.users.forEach(function(u,i){
+      row((i+1)+'. '+getUserLabel(u),u.em||'No email',i%2===1);
+    });
+  }
+  y+=3;
+
+  // Ring groups
+  sectionTitle('Ring Groups ('+d.rgs.length+')');
+  if(!d.rgs.length){row('','No ring groups added.',false);}
+  else{
+    d.rgs.forEach(function(rg,i){
+      var members=rg.members.map(function(mid){var u=d.users.find(function(u){return u.id===mid;});return u?getUserLabel(u):'Unknown';}).join(', ')||'No members selected';
+      if(y>265){doc.addPage();y=18;}
+      if(i%2===1){doc.setFillColor(249,249,247);doc.rect(pl,y,cw,13,'F');}
+      doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.setTextColor(20,20,20);
+      doc.text((i+1)+'. '+(rg.name||'Unnamed group'),pl+2,y+4.5);
+      doc.setFont('helvetica','normal');doc.setTextColor(80,80,80);
+      doc.text('Strategy: '+rg.strategy,pl+2,y+9.5);
+      var mw=doc.splitTextToSize('Members: '+members,cw-4);
+      doc.text(mw,pl+2,y+9.5+5);
+      y+=Math.max(14,9.5+mw.length*5)+2;
+    });
+  }
+  y+=3;
+
+  // Phone numbers
+  sectionTitle('Phone Numbers');
+  var numDesc={port:'Porting existing numbers',new:'Claiming new numbers',both:'Both porting & new numbers'}[d.numType]||'';
+  row('Type',numDesc,false);
+  if(d.numType==='port'||d.numType==='both'){
+    row('Current provider',d.currentProvider||'Not provided',true);
+    var nums=(d.portNumbers||'').split('\n').filter(function(n){return n.trim();});
+    multiRow('Numbers to port',nums.length?nums:['None listed']);
+  }
+  if(d.numType==='new'||d.numType==='both'){
+    row('Preferred area code',d.areaCode||'Not provided',true);
+    row('Quantity needed',d.numQty||'Not provided',false);
+  }
+  y+=6;
+
+  // Footer on all pages
+  var totalPages=doc.internal.getNumberOfPages();
+  for(var p=1;p<=totalPages;p++){
+    doc.setPage(p);
+    doc.setFillColor(245,245,245);
+    doc.rect(0,287,210,10,'F');
+    doc.setFontSize(7.5);doc.setTextColor(140,140,140);doc.setFont('helvetica','normal');
+    doc.text('Please email this PDF to ccsupport@zest4.com or attach it to a ticket at zest4customer.com',pl,293);
+    doc.text('Page '+p+' of '+totalPages,pw-pr,293,{align:'right'});
+  }
+
+  var fname='8x8-setup-'+d.company.replace(/[^a-zA-Z0-9]/g,'-').toLowerCase()+'.pdf';
+  doc.save(fname);
+
+  // Show downloaded confirmation
+  var conf=document.getElementById('dlConfirm');
+  conf.style.display='flex';
 }
 
 function submitForm(){
-  const data=collectData();
+  var data=collectData();
+  _pdfData=data;
   cur=6;
-  document.querySelectorAll('.pb').forEach(p=>p.className='pb done');
+  document.querySelectorAll('.pb').forEach(function(p){p.className='pb done';});
+  // Update email link with company name
+  var emailLink=document.getElementById('emailLink');
+  if(emailLink){
+    var subj=encodeURIComponent('8x8 Setup Configuration - '+data.company);
+    var body=encodeURIComponent('Hi CC Support,\n\nPlease find my 8x8 setup configuration attached as a PDF.\n\nKind regards,\n'+data.contact);
+    emailLink.href='mailto:ccsupport@zest4.com?subject='+subj+'&body='+body;
+  }
   showStep(6);
   document.getElementById('overviewOut').innerHTML=buildOverview(data);
 }
 
 function resetForm(){
   cur=0;users=[];rgs=[];nextUserId=1;nextRgId=1;
-  ['companyName','contactName','contactEmail','welcomeMsg','closedMsg','voicemailMsg','portNumbers','currentProvider','areaCode','numQty'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['fw0','fw1','fw2'].forEach(id=>document.getElementById(id).classList.remove('has-err'));
+  ['companyName','contactName','contactEmail','welcomeMsg','closedMsg','voicemailMsg','portNumbers','currentProvider','areaCode','numQty'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['fw0','fw1','fw2'].forEach(function(id){document.getElementById(id).classList.remove('has-err');});
   buildHours();renderUsers();renderRGs();
   document.querySelector('input[name="numType"][value="port"]').checked=true;
   updateNumType();
-  const n=6;
-  document.querySelectorAll('.pb').forEach((p,i)=>{p.className='pb'+(i===0?'active':'');});
   showStep(0);
 }
 
-const pbHTML=SNAMES.map((_,i)=>`<div class="pb${i===0?' active':''}"></div>`).join('');
+var pbHTML=SNAMES.map(function(_,i){return '<div class="pb'+(i===0?' active':'')+'"></div>';}).join('');
 document.getElementById('progBar').innerHTML=pbHTML;
 buildHours();
 renderUsers();
@@ -489,3 +720,5 @@ renderRGs();
 updateNumType();
 showStep(0);
 </script>
+</body>
+</html>
